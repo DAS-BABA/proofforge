@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0d0e0f;
+  --foreground: #e2e8f0;
+  
+  --charcoal-bg: #0c0d0e;
+  --charcoal-card: #131517;
+  --charcoal-border: #232729;
+  --charcoal-light: #1b1e20;
+  
+  --forest-primary: #2d6a4f;
+  --forest-dark: #1b4332;
+  --forest-light: #40916c;
+  --forest-accent: #74c69d;
+  --forest-glow: rgba(45, 106, 79, 0.15);
+  
+  --font-sans: var(--font-geist-sans), Inter, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+[data-theme="light"] {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  
+  --charcoal-bg: #ffffff;
+  --charcoal-card: #f1f5f9;
+  --charcoal-border: #cbd5e1;
+  --charcoal-light: #e2e8f0;
+  
+  --forest-primary: #1b4332;
+  --forest-dark: #081c15;
+  --forest-light: #2d6a4f;
+  --forest-accent: #40916c;
+  --forest-glow: rgba(27, 67, 50, 0.08);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-charcoal-bg: var(--charcoal-bg);
+  --color-charcoal-card: var(--charcoal-card);
+  --color-charcoal-border: var(--charcoal-border);
+  --color-charcoal-light: var(--charcoal-light);
+  
+  --color-forest-primary: var(--forest-primary);
+  --color-forest-dark: var(--forest-dark);
+  --color-forest-light: var(--forest-light);
+  --color-forest-accent: var(--forest-accent);
+  
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(19, 21, 23, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--charcoal-border);
+}
+
+[data-theme="light"] .glass-panel {
+  background: rgba(241, 245, 249, 0.75);
+  border: 1px solid var(--charcoal-border);
+}
+
+/* Subtle glow animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--forest-glow);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(45, 106, 79, 0.3);
+  }
+}
+
+.glow-active {
+  animation: pulseGlow 4s infinite ease-in-out;
+}
+
+/* Bento Grid item effects */
+.bento-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--charcoal-border);
+  background-color: var(--charcoal-card);
+}
+
+.bento-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(116, 198, 157, 0.03) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.bento-card:hover::before {
+  opacity: 1;
+}
+
+.bento-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--forest-primary);
+}
+
+/* Hide scrollbars but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom mini scrollbar for charts & timeline */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--charcoal-bg);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--charcoal-border);
+  border-radius: 99px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--forest-primary);
+}
+
+/* Contribution heat map item styling */
+.heatmap-cell {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  transition: transform 0.1s ease;
+}
+.heatmap-cell:hover {
+  transform: scale(1.2);
+  z-index: 10;
+}
+
+/* Markdown styling for public portfolios */
+.prose-custom h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--foreground);
+}
+.prose-custom p {
+  color: var(--foreground);
+  opacity: 0.85;
+  line-height: 1.75;
+}
+
+/* Print styling for PDF resumes */
+@media print {
+  body:not(.printing-resume) {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+
+  .print-page-break {
+    page-break-before: always;
+  }
+
+  .print-card {
+    border: 1px solid #e2e8f0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    page-break-inside: avoid;
+  }
+
+  .print-text-primary {
+    color: #1b4332 !important;
+  }
+}
